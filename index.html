@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamified Environmental Platform | Learn & Earn</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🌍 EcoQuest</h1>
+                <p class="subtitle">Learn About the Environment & Earn Rewards</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form auth-form-active">
+                <h2>Welcome Back</h2>
+                <form id="login-submit">
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                    <div id="login-error" class="error-message"></div>
+                </form>
+                <p class="switch-form">
+                    Don't have an account? <a href="javascript:void(0)" onclick="switchForm('register')">Register here</a>
+                </p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="auth-form">
+                <h2>Join the Movement</h2>
+                <form id="register-submit">
+                    <div class="form-group">
+                        <label for="register-username">Create Username</label>
+                        <input type="text" id="register-username" placeholder="Choose a unique username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Create Password</label>
+                        <input type="password" id="register-password" placeholder="Create a strong password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm">Confirm Password</label>
+                        <input type="password" id="register-confirm" placeholder="Re-enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                    <div id="register-error" class="error-message"></div>
+                </form>
+                <p class="switch-form">
+                    Already have an account? <a href="javascript:void(0)" onclick="switchForm('login')">Login here</a>
+                </p>
+            </div>
+
+            <div class="auth-features">
+                <h3>Why Join EcoQuest?</h3>
+                <ul>
+                    <li>🎮 <strong>Gamified Learning</strong> - Earn points and level up</li>
+                    <li>🏆 <strong>Leaderboards</strong> - Compete with friends globally</li>
+                    <li>🌱 <strong>Environmental Impact</strong> - Real actions for the planet</li>
+                    <li>🎁 <strong>Rewards</strong> - Unlock badges as you progress</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>

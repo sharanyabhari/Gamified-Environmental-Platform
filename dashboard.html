@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Gamified Environmental Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <h2>🌍 EcoQuest</h2>
+            </div>
+            <div class="navbar-menu">
+                <a href="javascript:void(0)" class="nav-item active" onclick="showSection('overview')">Overview</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="showSection('challenges')">Challenges</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="showSection('leaderboard')">Leaderboard</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="showSection('profile')">Profile</a>
+                <button class="nav-item btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section section-active">
+        <div class="dashboard-container">
+            <div class="user-card">
+                <h1 id="user-greeting">Welcome!</h1>
+                
+                <!-- Header Stats -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Current Points</div>
+                        <div class="stat-value" id="display-points">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Current Level</div>
+                        <div class="stat-value level-badge" id="display-level">1</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Challenges Done</div>
+                        <div class="stat-value" id="display-completed">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Current Streak</div>
+                        <div class="stat-value" id="display-streak">0</div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-section">
+                    <h3>Progress to Next Level</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="level-progress" style="width: 0%"></div>
+                    </div>
+                    <p id="progress-text">0 / 100 points</p>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="btn btn-primary" onclick="showSection('challenges')">Take Challenge</button>
+                    <button class="btn btn-secondary" onclick="showSection('leaderboard')">View Leaderboard</button>
+                </div>
+            </div>
+
+            <!-- Recent Achievements -->
+            <div class="achievements-card">
+                <h2>🏆 Recent Achievements</h2>
+                <div id="achievements-list" class="achievements-list">
+                    <p class="placeholder">Complete challenges to earn badges!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges Section -->
+    <section id="challenges" class="section">
+        <div class="dashboard-container">
+            <h1>Environmental Challenges</h1>
+            <p class="section-subtitle">Complete challenges to learn about the environment and earn points</p>
+
+            <!-- Filter -->
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterChallenges('all')">All</button>
+                <button class="filter-btn" onclick="filterChallenges('Easy')">Easy</button>
+                <button class="filter-btn" onclick="filterChallenges('Medium')">Medium</button>
+                <button class="filter-btn" onclick="filterChallenges('Hard')">Hard</button>
+            </div>
+
+            <!-- Challenges Grid -->
+            <div id="challenges-grid" class="challenges-grid">
+                <div class="loading">Loading challenges...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard" class="section">
+        <div class="dashboard-container">
+            <h1>Global Leaderboard</h1>
+            <p class="section-subtitle">Top environmental champions</p>
+
+            <div class="leaderboard-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Points</th>
+                            <th>Level</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <tr>
+                            <td colspan="4" class="loading">Loading leaderboard...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile" class="section">
+        <div class="dashboard-container">
+            <h1>My Profile</h1>
+            
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-info">
+                        <h2 id="profile-username">Loading...</h2>
+                        <p id="profile-level">Level 1</p>
+                    </div>
+                </div>
+
+                <!-- Stats Breakdown -->
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <span class="stat-label">Total Points</span>
+                        <span class="stat-value" id="profile-points">0</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="stat-label">Current Level</span>
+                        <span class="stat-value" id="profile-level-num">1</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="stat-label">Challenges Completed</span>
+                        <span class="stat-value" id="profile-completed">0</span>
+                    </div>
+                </div>
+
+                <!-- Category Breakdown -->
+                <h3>Learning Breakdown by Category</h3>
+                <div id="category-breakdown" class="category-breakdown">
+                    <p>Loading category data...</p>
+                </div>
+
+                <!-- Recent Challenge History -->
+                <h3>Recent Challenges Completed</h3>
+                <div id="challenge-history" class="challenge-history">
+                    <p>No challenges completed yet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenge Modal -->
+    <div id="challenge-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeChallengeModal()">&times;</span>
+            <h2 id="modal-title">Challenge Title</h2>
+            <p id="modal-description">Challenge description</p>
+            
+            <div class="modal-info">
+                <div class="info-item">
+                    <span class="label">Category:</span>
+                    <span id="modal-category">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Difficulty:</span>
+                    <span id="modal-difficulty">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Points Reward:</span>
+                    <span class="points-badge" id="modal-points">0</span>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeChallengeModal()">Cancel</button>
+                <button class="btn btn-primary" id="complete-btn" onclick="completeChallenge()">Complete Challenge</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content success-content">
+            <div id="success-animation" class="success-animation">🎉</div>
+            <h2 id="success-title">Challenge Completed!</h2>
+            <p id="success-message">You earned 50 points!</p>
+            <div id="level-up-info" style="display: none;">
+                <p class="level-up-text">🌟 LEVEL UP! 🌟</p>
+                <p id="level-up-detail">You've reached Level 2!</p>
+            </div>
+            <button class="btn btn-primary" onclick="closeSuccessModal()">Continue</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
